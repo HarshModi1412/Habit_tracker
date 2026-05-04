@@ -1,19 +1,21 @@
 import streamlit as st
-from utils import get_users
 
-# Import pages
-from modules.summary import show_summary_page   # ✅ NEW (correct import)
-from modules.track_habit import show_track_page
-from modules.habit_editor import show_habit_editor
-from modules.Analysis import show_summary_page as show_analysis_page
-from modules.rewards import show_rewards_page
-
-# ------------------ CONFIG ------------------
+# ✅ FIRST LINE (no imports before this)
 st.set_page_config(
     page_title="Habit Tracker",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# THEN imports
+from utils import get_users
+
+from modules.summary import show_summary_page
+from modules.track_habit import show_track_page
+from modules.habit_editor import show_habit_editor
+from modules.Analysis import show_summary_page as show_analysis_page
+from modules.rewards import show_rewards_page
+
 
 # ------------------ LOAD USERS ------------------
 users = get_users()
@@ -36,7 +38,7 @@ user_id = user_dict[selected_user_name]
 
 st.sidebar.divider()
 
-# Navigation (Summary added at top)
+# Navigation
 page = st.sidebar.radio(
     "Navigation",
     ["Summary", "Track Habit", "Habit Editor", "Analysis", "Rewards"]
