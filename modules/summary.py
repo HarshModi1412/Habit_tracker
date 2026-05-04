@@ -161,9 +161,9 @@ def show_summary_page(user_id):
 
             if days_missed >= 3:
                 st.warning(
-                    f"You are not focusing on **<u>*{habit.habit_name}*</u>**.\n\n"
+                    f"You are not focusing on ***{habit.habit_name}***.\n\n"
                     f"Because I remember you said:\n\n"
-                    f"**<u>*{habit.reason}*</u>**"
+                    f"***{habit.reason}***"
                 )
                 issue_found = True
                 break
