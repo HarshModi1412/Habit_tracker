@@ -11,21 +11,27 @@ from io import BytesIO
 # =========================
 # IMAGE PROGRESS FUNCTION
 # =========================
+from PIL import ImageFilter
+
 def get_progress_image(image_url, progress):
     try:
         response = requests.get(image_url)
         img = Image.open(BytesIO(response.content)).convert("RGB")
 
-        gray = ImageOps.grayscale(img).convert("RGB")
+        # Create blurred version
+        blurred = img.filter(ImageFilter.GaussianBlur(radius=10))
 
         w, h = img.size
         reveal_h = int(h * progress)
 
-        # Reveal from bottom
-        color_part = img.crop((0, h - reveal_h, w, h))
-        gray.paste(color_part, (0, h - reveal_h))
+        # Take sharp (original) bottom part
+        clear_part = img.crop((0, h - reveal_h, w, h))
 
-        return gray
+        # Paste sharp part onto blurred image
+        blurred.paste(clear_part, (0, h - reveal_h))
+
+        return blurred
+
     except Exception as e:
         print("Image error:", e)
         return None
